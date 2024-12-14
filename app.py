@@ -86,6 +86,33 @@ class stores(Resource):
     
         return jsonify(response)
 
+class store_sales(Resource):
+    def get(self,store_id):
+        # Use parameters to prevent SQL injection via the store ID string.
+        parameters = [
+        StatementParameterListItem(name='store_id', value=store_id, type="INT")
+        ]
+
+        statement_response = w.statement_execution.execute_statement(
+        statement = sql_statements[SqlStatement.LIST_SALES],
+        wait_timeout = "50s",
+        warehouse_id = warehouse_id,
+        parameters = parameters,
+        on_wait_timeout = TimeoutAction.CANCEL
+        )
+
+        if statement_response.status.state == StatementState.SUCCEEDED:
+            store_sales = statement_response.result.data_array
+        else:
+            print(statement_response.status)
+
+        response = {
+        'state': str(statement_response.status.state.name),
+        'store_sales': store_sales 
+        }
+    
+        return jsonify(response)
+
 class Books(Resource):
     def get(self):
         return {"books": books}, 200
@@ -119,6 +146,7 @@ class Book(Resource):
 api.add_resource(Books, '/books')
 api.add_resource(Book, '/books/<int:book_id>')
 api.add_resource(stores, '/stores')
+api.add_resource(store_sales, '/store_sales/<init:store_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)
