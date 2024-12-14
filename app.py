@@ -1,4 +1,4 @@
-from flask import Flask, request
+ffrom flask import Flask, request, jsonify
 from flask_restful import Api, Resource
 
 # Databricks SDK
@@ -58,7 +58,7 @@ sql_statements = {
 }
 
 class stores(Resource):
-    def get():
+    def get(self):
         statement_response = w.statement_execution.execute_statement(
         statement = sql_statements[SqlStatement.LIST_STORES],
         wait_timeout = "50s",
