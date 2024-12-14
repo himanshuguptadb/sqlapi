@@ -146,7 +146,7 @@ class Book(Resource):
 api.add_resource(Books, '/books')
 api.add_resource(Book, '/books/<int:book_id>')
 api.add_resource(stores, '/stores')
-api.add_resource(store_sales, '/store_sales/<init:store_id>')
+api.add_resource(store_sales, '/store_sales/<int:store_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)
