@@ -4,6 +4,7 @@ from flask_restful import Api, Resource
 # Databricks SDK
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.service.sql import *
+import os
 
 # Initialize Databricks SDK. 
 # By default, this authenticates using the DATABRICKS_HOST and DATABRICKS_TOKEN environment variables
